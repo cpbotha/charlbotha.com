@@ -1,0 +1,68 @@
+{{ if .Params.bsky }}
+
+<div
+  id="comments-bsky"
+  data-bsky-uri="{{ .Params.bsky }}"
+  class="text-muted"
+>
+  <div id="comment-post">
+    <h2 class="comment-post-header font-weight-bold text-dark h5">
+      Comments via 🦋
+    </h2>
+
+    <div class="comment-post-meta mt-2 mb-3">
+      <a
+        class="comment-post-meta-actions text-muted"
+        href="#"
+        target="_blank"
+      >
+        <span id="likeCount">0</span> likes |
+        <span id="repostCount">0</span> reposts |
+        <span id="replyCount">0</span> replies
+      </a>
+
+      <a
+        id="comment-post-meta-reply"
+        class="d-block text-muted"
+        href="#"
+        target="_blank"
+      >
+        Join the conversation
+      </a>
+    </div>
+  </div>
+
+  <div id="comments-container" class="overflow-hidden"></div>
+
+  <template id="comment-template">
+    <div class="comment d-flex align-items-start mt-4 mb-4">
+      <div class="avatar pt-2 mr-3 flex-shrink-0" style="width: 40px; height: 40px;">
+        <a class="avatar-link d-block w-100" href="" target="_blank">
+          <img
+            class="avatar-img border rounded-circle overflow-hidden"
+            src=""
+            alt="avatar"
+            style="width: 40px; height: 40px; object-fit: cover;"
+          />
+        </a>
+      </div>
+
+      <div class="comment-body flex-grow-1">
+        <a class="author-link" href="#" target="_blank">
+          <span class="author-name" title=""></span>
+        </a>
+
+        <p class="comment-text text-wrap text-break"></p>
+
+        <div class="comment-actions mt-1 text-muted small text-wrap text-break">
+          <a class="actions-link" href="#" target="_blank"></a>
+        </div>
+      </div>
+    </div>
+  </template>
+</div>
+
+{{ $comments := resources.Get "js/comments-bsky.js" }}
+<script src="{{ $comments.RelPermalink }}"></script>
+
+{{ end }}
