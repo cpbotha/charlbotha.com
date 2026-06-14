@@ -1,3 +1,8 @@
+// slightly tweaked version of Kaushik Gopal's setup
+// https://kau.sh/blog/bluesky-comments-for-hugo/
+// tweaks include
+// - convert comments-bsky.html partial to bootstrap 
+// - tweak the "join conversation" setup
 document.addEventListener("DOMContentLoaded", () => {
   const commentsSection = document.getElementById("comments-bsky");
   const bskyWebUrl = commentsSection?.getAttribute("data-bsky-uri");
@@ -103,6 +108,7 @@ function renderComments(thread, container) {
   const likeCountEl = document.getElementById("likeCount");
   const repostCountEl = document.getElementById("repostCount");
   const replyCountEl = document.getElementById("replyCount");
+  // a href that will get the link to the associated bluesky post 
   const commentPostLink = document.getElementById("comment-post-meta-reply");
   const commentsContainer = document.getElementById("comments-container");
 
@@ -110,10 +116,13 @@ function renderComments(thread, container) {
   repostCountEl.textContent = thread.post.repostCount ?? 0;
   replyCountEl.textContent = thread.post.replyCount ?? 0;
 
-  const postUrl = `https://bsky.app/profile/${
-    thread.post.author.did
-  }/post/${thread.post.uri.split("/").pop()}`;
+  const postUrl = `https://bsky.app/profile/${thread.post.author.did}/post/${thread.post.uri.split("/").pop()}`;
   commentPostLink.href = postUrl;
+
+  // cpbotha: this would render the top-level associated post and all its comments
+  // const commentPost = document.getElementById("comment-post");
+  // console.log(commentPost);
+  // console.log(commentPost.appendChild(renderComment(thread)));
 
   commentsContainer.innerHTML = "";
   if (thread.replies && thread.replies.length > 0) {
@@ -159,9 +168,7 @@ function renderComment(comment) {
     .split("/")
     .pop()}`;
   actionsLink.href = commentUrl;
-  actionsLink.textContent = `${post.replyCount ?? 0} replies | ${
-    post.repostCount ?? 0
-  } reposts | ${post.likeCount ?? 0} likes`;
+  actionsLink.textContent = `${post.replyCount ?? 0} replies | ${post.repostCount ?? 0} reposts | ${post.likeCount ?? 0} likes`;
 
   // Nested replies
   if (comment.replies && comment.replies.length > 0) {
