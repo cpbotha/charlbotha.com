@@ -2,9 +2,10 @@
 
 <h1>{{ .Title }}</h1>
 {{ partial "date-and-tags.html" . }}
-<br><br>
+<br>
 {{ .Content }}
 
+<div class="mt-4"><span class="badge badge-pill badge-success" style="padding:0.5em 1em"><i data-feather="edit-3" class="mr-1" style="width:14px;height:14px"></i>Writing 100% human</span></div>
 {{- partial "comments-bsky.html" . -}}
 
 {{ end }}
