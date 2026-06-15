@@ -1,13 +1,16 @@
 <div class="text-muted" style="font-size: 0.85em;">
 {{ $dateTime := .PublishDate.Format "2006-01-02" }}
 {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2, 2006" }}
-<i data-feather="calendar" style="height: 0.85em;"></i> <time datetime="{{ $dateTime }}">{{ .PublishDate.Format $dateFormat }}</time>
-{{ with .Params.tags }}
+  <span class="d-inline-flex align-items-center">
+    <i data-feather="calendar" class="mr-1" style="width: 1em;"></i>
+    <time datetime="{{ $dateTime }}">{{ .PublishDate.Format $dateFormat }}</time>
+  </span>
+  {{ with .Params.tags }}
   <br>
-  <i data-feather="tag" style="height: 0.85em;"></i>
+  <i data-feather="tag" style="width: 1em;"></i>
   {{ range . }}
   {{ $href := print (absURL "tags/") (urlize .) }}
-  <a class="btn btn-sm btn-outline-dark tag-btn" href="{{ $href }}" style="font-size: 0.85em;">{{ . }}</a>
+  <a class="badge badge-info font-weight-normal" href="{{ $href }}">{{ . }}</a>
   {{ end }}
 {{ end }}
 </div>
