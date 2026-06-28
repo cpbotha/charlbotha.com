@@ -3,6 +3,8 @@
 // tweaks include
 // - convert comments-bsky.html partial to bootstrap 
 // - tweak the "join conversation" setup
+// - add reply date to each comment
+// - strip out any replies hidden by the bost author (moderation)
 document.addEventListener("DOMContentLoaded", () => {
   const commentsSection = document.getElementById("comments-bsky");
   const bskyWebUrl = commentsSection?.getAttribute("data-bsky-uri");
@@ -101,7 +103,27 @@ async function getPostThread(atUri) {
     throw new Error("Could not find thread");
   }
 
+  // Drop replies the post author has hidden via their threadgate.
+  // The threadgate lives on the response (sibling of `thread`), not on `thread` itself.
+  const hiddenReplies = new Set(data.threadgate?.record?.hiddenReplies || []);
+  if (hiddenReplies.size) stripHiddenReplies(data.thread, hiddenReplies);
+
   return data.thread;
+}
+
+function stripHiddenReplies(node, hidden) {
+  if (!node.replies) return;
+  node.replies = node.replies.filter(
+    (r) =>
+      !(
+        r.$type === "app.bsky.feed.defs#threadViewPost" &&
+        hidden.has(r.post.uri)
+      )
+  );
+  for (const r of node.replies) {
+    if (r.$type === "app.bsky.feed.defs#threadViewPost")
+      stripHiddenReplies(r, hidden);
+  }
 }
 
 function renderComments(thread, container) {
