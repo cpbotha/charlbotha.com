@@ -168,7 +168,8 @@ function renderComment(comment) {
     .split("/")
     .pop()}`;
   actionsLink.href = commentUrl;
-  actionsLink.textContent = `${post.replyCount ?? 0} replies | ${post.repostCount ?? 0} reposts | ${post.likeCount ?? 0} likes`;
+  const replyDate = new Date(post.record.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  actionsLink.textContent = `${replyDate} | ${post.replyCount ?? 0} replies | ${post.repostCount ?? 0} reposts | ${post.likeCount ?? 0} likes`;
 
   // Nested replies
   if (comment.replies && comment.replies.length > 0) {
