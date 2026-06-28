@@ -191,7 +191,10 @@ function renderComment(comment) {
     .pop()}`;
   actionsLink.href = commentUrl;
   const replyDate = new Date(post.record.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  actionsLink.textContent = `${replyDate} | ${post.replyCount ?? 0} replies | ${post.repostCount ?? 0} reposts | ${post.likeCount ?? 0} likes`;
+
+  // I prefer having only the reply date, not the comment's stats as well
+  //actionsLink.textContent = `${replyDate} | ${post.replyCount ?? 0} replies | ${post.repostCount ?? 0} reposts | ${post.likeCount ?? 0} likes`;
+  actionsLink.textContent = `${replyDate}`;
 
   // Nested replies
   if (comment.replies && comment.replies.length > 0) {
